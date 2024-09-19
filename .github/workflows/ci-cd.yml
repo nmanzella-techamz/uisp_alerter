@@ -52,7 +52,8 @@ jobs:
       run: ssh srv 'docker ps -a -q --filter "ancestor=uisp_alerter" | xargs --no-run-if-empty docker rm'
 
     - name: Remove old Docker image
-      run: ssh srv 'docker images -q uisp_alerter | grep -q . && docker rmi uisp_alerter'
+      continue-on-error: true
+      run: ssh srv 'docker image rm uisp_alerter'
 
     - name: Create config.toml
       run: >
