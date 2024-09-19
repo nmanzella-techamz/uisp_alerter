@@ -1,0 +1,13 @@
+services:
+
+  uisp_alerter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: uisp_alerter
+    container_name: "uisp_alerter"
+    restart: no
+    environment:
+      - UISP_ALERTER_CONFIG_PATH=/code/config.toml
+    volumes:
+      - ./volumes/config.toml:/code/config.toml
