@@ -56,11 +56,13 @@ jobs:
       run: ssh srv 'docker image rm uisp_alerter'
 
     - name: Create config.toml
-      run: >
-        ssh srv '
-        mkdir ${{ github.event.repository.name }}/volumes && 
-        echo \'${{ secrets.CONFIG }}\' > ${{ github.event.repository.name }}/volumes/config.toml
-        '
+      run: |
+        ssh srv 'config_file=$(
+        cat <<"EOF"
+        ${{ secrets.CONFIG }}
+        EOF
+        ) && mkdir ${{ github.event.repository.name }}/volumes && echo "$config_file" > ${{ github.event.repository.name }}/volumes/config.toml'
+
     - name: Update crontab
       run: >
         ssh srv '
