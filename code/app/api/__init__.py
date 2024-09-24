@@ -1,9 +1,11 @@
 import requests 
 from math import floor
 from datetime import datetime
+from retry import retry
 
 class UispApi:
 
+    @retry(requests.exceptions.HTTPError, tries=10, delay=1, backoff=2)
     def get_request(self, endpoint, params):
         kwargs = {
             'url': f'{self.url}{endpoint}',
@@ -13,7 +15,9 @@ class UispApi:
             },
             'params': params,
         }
-        return requests.get(**kwargs)
+        response = requests.get(**kwargs)
+        response.raise_for_status()
+        return response
 
     def __init__(self, domain, api_version, api_key):
         self.url = f'https://{domain}/nms/api/{api_version}'

@@ -17,7 +17,7 @@ with open(config_path, 'rb') as f:
 
 api = UispApi(**config['api'])
 
-THREE_MINUTES = 180_000 # 180,000ms == 3min
+ignore_alerts_less_than = config['ignore_alerts']['less_than']
 
 if __name__ == "__main__":
     for notification in config['notifications']:
@@ -33,8 +33,10 @@ if __name__ == "__main__":
         except requests.exceptions.HTTPError:
             print(f'HTTP Error during Outages request: {outages.status_code} {outages.reason}')
             continue
-        alerts = [create_alert_message(outage, timezone) for outage in outages.json()['items'] \
-                  if outage['aggregatedTime'] > THREE_MINUTES]
+        items = outages.json()['items'] 
+        print(items)
+        alerts = [create_alert_message(outage, timezone) for outage in items \
+                  if outage['aggregatedTime'] > ignore_alerts_less_than]
         print(f'Number of alerts: {len(alerts)}')
         if len(alerts) > 0:
             send_uisp_alert(alerts=alerts,

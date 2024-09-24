@@ -77,13 +77,15 @@ def get_datetime(timestamp: str, timezone) -> datetime:
 
 def create_alert_message(outage: dict, timezone) -> str:
     start = get_datetime(outage["startTimestamp"], timezone)
-    end = get_datetime(outage["endTimestamp"], timezone)
+    if outage["endTimestamp"] is None:
+        end = ''
+    else: 
+        end = f"\nEnd: {get_datetime(outage['endTimestamp'], timezone)}"
     return dedent(f"""\
     Alert for "{outage['device']['name']}" for {get_human_readable_time(outage["aggregatedTime"])}
     Issue Type: {outage['type'].title()}
     Issue is still active: {outage['inProgress']}
-    Start: {human_readable_datetime(start)}
-    End: {human_readable_datetime(end)}
+    Start: {human_readable_datetime(start)}{end}
     Model: {outage['device']['model']}
     MAC Address: {outage['device']['mac']}
     """)
