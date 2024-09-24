@@ -59,7 +59,7 @@ jobs:
       run: >
         ssh srv '
         mkdir ${{ github.event.repository.name }}/volumes && 
-        echo '${{ secrets.CONFIG }}' > ${{ github.event.repository.name }}/volumes/config.toml
+        echo \'${{ secrets.CONFIG }}\' > ${{ github.event.repository.name }}/volumes/config.toml
         '
     - name: Update crontab
       run: >
