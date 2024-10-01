@@ -66,8 +66,8 @@ jobs:
     - name: Update crontab
       run: >
         ssh srv '
-        FILE_PATH="/root/${{ github.event.repository.name }}/compose.yaml";
-        crontab -l | sed "/$(echo "$FILE_PATH" | sed "s/[\/&]/\\&/g")/d" | crontab -;
-        (crontab -l; echo "* 9 * * * docker compose -f /root/${{ github.event.repository.name }}/compose.yaml up") | crontab -;
+        FILE_PATH="\/root\/${{ github.event.repository.name }}\/compose.yaml";
+        crontab -l | sed "/"$FILE_PATH"/d" | crontab -;
+        (crontab -l; echo "0 9 * * * docker compose -f /root/${{ github.event.repository.name }}/compose.yaml up") | crontab -;
         unset FILE_PATH
         '
