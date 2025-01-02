@@ -15,9 +15,9 @@ from helpers import (
 from mail import send_email
 import requests
 import os
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 
-# load_dotenv()
+load_dotenv()
 
 if not (config_path := os.environ.get("UISP_ALERTER_CONFIG_PATH")):
     raise Exception(
