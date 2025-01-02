@@ -59,10 +59,10 @@ def main():
             )
             continue
         outages = outages_response.json()["items"]
-        if len(outages) > 0:
-            print(outages)
-        else:
-            print("No items returned from /outages API call.")
+        # if len(outages) > 0:
+        #     print(outages)
+        # else:
+        #     print("No items returned from /outages API call.")
         alerts = []
         if config["type"] == "event":
             for outage in outages:
