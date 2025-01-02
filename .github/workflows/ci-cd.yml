@@ -68,7 +68,7 @@ jobs:
         ssh srv '
         FILE_PATH="\/root\/${{ github.event.repository.name }}\/compose.yaml";
         crontab -l | sed "/"$FILE_PATH"/d" | crontab -;
-        (crontab -l; echo "0 12 * * * docker compose -f /root/${{ github.event.repository.name }}/compose.yaml up  -e SITE_CONFIG_ID=${{ secrets.SITE_CONFIG_ID_ICMD }}") | crontab -;
-        (crontab -l; echo "3,8,13,18,23,28,33,38,43,48,53,58 * * * * docker compose -f /root/${{ github.event.repository.name }}/compose.yaml up  -e SITE_CONFIG_ID=${{ secrets.SITE_CONFIG_ID_ICME }}") | crontab -;
+        (crontab -l; echo "0 12 * * * SITE_CONFIG_ID=${{ secrets.SITE_CONFIG_ID_ICMD }} docker compose -f /root/${{ github.event.repository.name }}/compose.yaml up") | crontab -;
+        (crontab -l; echo "3,8,13,18,23,28,33,38,43,48,53,58 * * * * SITE_CONFIG_ID=${{ secrets.SITE_CONFIG_ID_ICME }} docker compose -f /root/${{ github.event.repository.name }}/compose.yaml up") | crontab -;
         unset FILE_PATH
         '
