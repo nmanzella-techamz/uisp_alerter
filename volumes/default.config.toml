@@ -1,0 +1,60 @@
+[api]
+domain = "uisp.example.com"
+api_version = "v2.1"
+api_key = "replace with your UISP API key here"
+
+[mail]
+smtp_server = "smtp.example.com"
+smtp_port = 587
+from = "noreply@example.com"
+password = "Enter your mail password here"
+
+# Example 1 - Sends a daily digest email to show all outages that
+# started, ended, and are ongoing.
+[[site_configs]]
+id = "acme_inc_digest" # Your chosen "id" for this alert set.
+site_name = "Acme, Inc." # Must match the site name in UISP exactly.
+timezone = "America/New_York" # Valid timezone name.
+type = "digest" # "digest" to get alerts that are ongoing, start, or end within the time delts or "event" to only get alerts that start or end.
+ignore_alerts_less_than = 180 # Time in seconds. Ignore any alerts that exist less than this amount of time. 
+send_mail = true # Send mail if outages are detected.
+send_mail_without_events_found = true # Send mail even if zero outages are detected.
+emails = [
+    "recipient1_email_address@example.com",
+    "recipient2_email_address@example.com",
+]
+[site_configs.start_delta] # Time delta to start looking for outages.
+days = 1
+hours = 0
+minutes = 3
+seconds = 0
+[site_configs.end_delta] # Time delta to end looking for outages. 
+days = 0
+hours = 0
+minutes = 3
+seconds = 0
+
+# Example 2 - Monitors for outages every five minutes and receive notifications only
+# when outages start or end.
+[[site_configs]]
+id = "ye_olde_bank_event" # Your chosen "id" for this alert set.
+site_name = "Ye Olde Bank" # Must match the site name in UISP exactly.
+timezone = "America/New_York" # Valid timezone name.
+type = "event" # "digest" to get alerts that are ongoing, start, or end within the time delts or "event" to only get alerts that start or end.
+ignore_alerts_less_than = 0 # Time in seconds. Ignore any alerts that exist less than this amount of time. Useful if devices often go offline briefly.
+send_mail = true # Send mail if outages are detected.
+send_mail_without_events_found = false # Send mail even if zero outages are detected.
+emails = [
+    "recipient1_email_address@example.com",
+    "recipient2_email_address@example.com",
+]
+[site_configs.start_delta] # Time delta to start looking for outages. 
+days = 0
+hours = 0
+minutes = 5
+seconds = 0
+[site_configs.end_delta] # Time delta to end looking for outages. 
+days = 0
+hours = 0
+minutes = 0
+seconds = 0
