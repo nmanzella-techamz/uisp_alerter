@@ -61,7 +61,7 @@ jobs:
         cat <<"EOF"
         ${{ secrets.CONFIG }}
         EOF
-        ) && mkdir ${{ github.event.repository.name }}/volumes && echo "$config_file" > ${{ github.event.repository.name }}/volumes/config.toml'
+        ) && echo "$config_file" > ${{ github.event.repository.name }}/volumes/config.toml'
 
     - name: Update crontab
       run: >
