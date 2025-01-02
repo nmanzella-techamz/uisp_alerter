@@ -9,5 +9,6 @@ services:
     restart: no
     environment:
       - UISP_ALERTER_CONFIG_PATH=/code/config.toml
+      - SITE_CONFIG_ID=${SITE_CONFIG_ID}
     volumes:
       - ./volumes/config.toml:/code/config.toml
